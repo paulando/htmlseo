@@ -1,5 +1,7 @@
 function getMetas(document) {
 
+    const title = document.querySelector("title").innerText;
+    const title_value = `<div><span><b>title - </b>${title != "" ? title : `<i style="color: red;">No title!</i>`}`;
     const metas = [...document.querySelectorAll("meta")];
 
     let values = metas.map((el, i) => {
@@ -13,7 +15,7 @@ function getMetas(document) {
 
     }).join("");
 
-    return `<h1>METAS</h1>${values}`;
+    return `<h1>METAS</h1>${title_value}${values}`;
 
 }
 
