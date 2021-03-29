@@ -55,26 +55,30 @@ function getLinks(document) {
         // console.log(href);
         // console.log("MAILTO",href.indexOf("mailto:"));
         // console.log("PHONE",href.indexOf("tel:"));
+        
+        if (typeof href === "string") {
 
-        switch (true) {
-            case href.indexOf("mailto:") > -1:
-                return `<div><span><b>Email - </b></span><span>${href}</span></div>`;
-                break;
-            case href.indexOf("tel:") > -1:
-                return `<div><span><b>Phone - </b></span><span>${href}</span></div>`;
-                break;
-            case href.indexOf("fax:") > -1:
-                return `<div><span><b>Fax - </b></span><span>${href}</span></div>`;
-                break;
-            case href == "#" || href == "":
-                return `<div><span><b>No link - </b></span><span>${dataset.toggle != "" ? dataset.toggle : el.innerText}</span></div>`;
-                break;
-            case href.indexOf(origin) > -1:
-                return `<div><span><b>Inner - </b></span><span>${href}</span></div>`;
-                break;
-            default:
-                return `<div><span><b>Outer - </b></span><span>${href} </span><span style="color: #4eb6ad;">${target != "" ? target : `<i style="color: red;">No target!</i>`} </span><span style="color: #4eb6ad;">${rel != "" ? rel : `<i style="color: red;">No rel!</i>`}</span></div>`;
-                break;
+            switch (true) {
+                case href.indexOf("mailto:") > -1:
+                    return `<div><span><b>Email - </b></span><span>${href}</span></div>`;
+                    break;
+                case href.indexOf("tel:") > -1:
+                    return `<div><span><b>Phone - </b></span><span>${href}</span></div>`;
+                    break;
+                case href.indexOf("fax:") > -1:
+                    return `<div><span><b>Fax - </b></span><span>${href}</span></div>`;
+                    break;
+                case href == "#" || href == "":
+                    return `<div><span><b>No link - </b></span><span>${dataset.toggle != "" ? dataset.toggle : el.innerText}</span></div>`;
+                    break;
+                case href.indexOf(origin) > -1:
+                    return `<div><span><b>Inner - </b></span><span>${href}</span></div>`;
+                    break;
+                default:
+                    return `<div><span><b>Outer - </b></span><span>${href} </span><span style="color: #4eb6ad;">${target != "" ? target : `<i style="color: red;">No target!</i>`} </span><span style="color: #4eb6ad;">${rel != "" ? rel : `<i style="color: red;">No rel!</i>`}</span></div>`;
+                    break;
+            }
+            
         }
 
     }).join("");
