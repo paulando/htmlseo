@@ -1,17 +1,40 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-	<script src='popup.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML SEO</title>
+	<style>
+		a {
+			color: #2b7bb1;
+		}
+		.btn-scrollintoview {
+			cursor: pointer;
+		}
+		.row {
+			display: flex;
+			margin-bottom: 10px;
+		}
+		.title {
+			width: 90px;
+			flex-shrink: 0;
+		}
+		.tag {
+			width: 30px;
+			flex-shrink: 0;
+		}
+		.error {
+			color: red!important;
+			font-weight: bold!important;
+		}
+		.warning {
+			color: #cdb246!important;
+			font-weight: bold!important;
+		}
+	</style>
 </head>
-
-<body style="position: relative; max-height: 100vh; width:600px; overflow-y:scroll">
-	<div 
-		id="message" 
-		style="position: relative; min-height: 500px; max-height: 80vh; width:600px; overflow-y:scroll"
-	>
-		Injecting Script....
-	</div>
+<body>
+	<div id="elements" style="width:560px"></div>
+    <script src="popup.js"></script>
 </body>
-
 </html>

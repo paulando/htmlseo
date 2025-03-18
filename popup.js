@@ -1,45 +1,47 @@
-chrome.runtime.onMessage.addListener(function (request, sender) {
+document.addEventListener("DOMContentLoaded", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            files: ["content.js"]
+        });
+    });
 
-	if (request.action == "getSource") {
+    chrome.runtime.onMessage.addListener((message) => {
+        if (message.elements) {
+			document.getElementById("elements").innerHTML = message.elements;
 
-		message.innerHTML = request.source;
-
-	}
-
+			[...document.querySelectorAll('.btn-scrollintoview')].forEach(button => {
+				button.addEventListener("click", () => {
+					// showElementByText(button.getAttribute("data-tag"),button.getAttribute("data-text"))
+					chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+						chrome.scripting.executeScript({
+							target: { tabId: tabs[0].id },
+							function: showElementByText,
+							args: [button.getAttribute("data-tag"), button.getAttribute("data-text")]
+						});
+					});
+				});
+			});
+		}
+    });
 });
 
-
-// function scrollToElement(window) {
-
-// 	const scrollElements = [...document.querySelectorAll(".scroll-to-element")];
-
-// 	scrollElements.map(el => {
-
-// 		el.addEventListener("click", function() {
-
-// 			let offset_top = this.dataset.offsetTop;
-// 			console.log(window)
-// 			window.scrollTo(0, parseInt(offset_top, 10));
-
-// 		});
-
-// 	});
-
-// }
-
-function onWindowLoad() {
-
-	var message = document.querySelector('#message');
-
-	chrome.tabs.executeScript(null, {
-		file: "getPagesSource.js"
-	}, function () {
-		// If you try and inject into an extensions page or the webstore/NTP you'll get an error
-		if (chrome.runtime.lastError) {
-			message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
-		}
-	});
-
+function findElementByText(tag, text) {
+    const elements = document.querySelectorAll(tag);
+    return Array.from(elements).find(el => el.textContent.trim() === text);
 }
 
-window.onload = onWindowLoad;
+function showElementByText(tag, text) {
+	const element = findElementByText(tag, text);
+    scrollToElementWithOffset(element);
+}
+
+function scrollToElementWithOffset(element, offset = 150) {
+    if (element) {
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+            top: elementPosition - offset,
+            behavior: "smooth"
+        });
+    }
+}
