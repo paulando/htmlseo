@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			[...document.querySelectorAll('.btn-scrollintoview')].forEach(button => {
 				button.addEventListener("click", () => {
-					// showElementByText(button.getAttribute("data-tag"),button.getAttribute("data-text"))
 					chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 						chrome.scripting.executeScript({
 							target: { tabId: tabs[0].id },

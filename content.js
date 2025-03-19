@@ -58,7 +58,6 @@ function getOGTags() {
     metaTags.forEach(tag => {
         const property = tag.getAttribute('property').replace('og:', '');
         let content = tag.getAttribute('content');
-        console.log(property);
         if (property === 'image') {
             content = `<div data-src="${content}">${content}</div>`;
         }
