@@ -22,6 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
 					});
 				});
 			});
+            
+            [...document.querySelectorAll('[data-src]')].forEach(button => {
+				button.addEventListener("mouseenter", (event) => {
+                    const image = document.getElementById("image");
+                    const x = event.clientX;
+                    const y = event.clientY;
+
+                    image.src = button.getAttribute("data-src");
+                    image.style = `position: fixed; top: ${y}px; left: ${x+20}px; z-index: 10000; width: 200px; height: auto;`;
+				});
+
+                button.addEventListener("mouseleave", () => {
+                    image.src = "";
+                    image.style = "";
+                });
+			});
 		}
     });
 });
