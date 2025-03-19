@@ -23,6 +23,12 @@ function getMetas(document) {
             <a href="https://search.google.com/test/rich-results?url=${encodedUrl}" target="_blank">Rich Results Test</a>
             <span style="display:inline-block;margin:0 8px">|</span>
             <a href="https://validator.schema.org/#url=${encodedUrl}" target="_blank">Schema.org</a>
+            <span style="display:inline-block;margin:0 8px">|</span>
+            <a href="https://gtmetrix.com/?url=${encodedUrl}" target="_blank">GTmetrix</a>
+            <span style="display:inline-block;margin:0 8px">|</span>
+            <a href="https://www.webpagetest.org/?url=${encodedUrl}" target="_blank">WebPageTest</a>
+            <span style="display:inline-block;margin:0 8px">|</span>
+            <a href="https://pagespeed.web.dev/analysis?url=${encodedUrl}" target="_blank">PageSpeed Insights</a>
         </div>
     <h1>METAS</h1>
         ${getRow("Title", document.title)}
