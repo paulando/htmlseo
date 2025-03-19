@@ -43,5 +43,9 @@ function scrollToElementWithOffset(element, offset = 150) {
             top: elementPosition - offset,
             behavior: "smooth"
         });
+        element.style.outline = "2px solid red";
+        setTimeout(() => {
+            element.style.outline = "";
+        }, 2000);
     }
 }
