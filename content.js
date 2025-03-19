@@ -20,9 +20,11 @@ function getMetas(document) {
 
     return `<h1>Quick Links</h1>
         <div class="row">
-            <a href="https://search.google.com/test/rich-results?url=${encodedUrl}" target="_blank">Rich Results Test</a>
+            <a href="https://search.google.com/test/rich-results?url=${encodedUrl}" target="_blank">Rich Results</a>
             <span style="display:inline-block;margin:0 8px">|</span>
             <a href="https://validator.schema.org/#url=${encodedUrl}" target="_blank">Schema.org</a>
+            <span style="display:inline-block;margin:0 8px">|</span>
+            <a href="https://validator.w3.org/nu/?doc=${encodedUrl}" target="_blank">W3 validator</a>
             <span style="display:inline-block;margin:0 8px">|</span>
             <a href="https://gtmetrix.com/?url=${encodedUrl}" target="_blank">GTmetrix</a>
             <span style="display:inline-block;margin:0 8px">|</span>
