@@ -1,6 +1,6 @@
 {
 	"name": "HTML tags for SEO analysis",
-	"version": "2.0",
+	"version": "2.5",
 	"manifest_version": 3,
 	"description": "Get html tags from an active tab",
 	"icons": { "16": "icon.png",
@@ -9,8 +9,20 @@
 		"128": "icon128.png"
 	},
 	"permissions": [
+		"tabs",
 		"activeTab", 
-		"scripting"
+		"scripting",
+		"storage"
+	],
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["content.js"],
+			"run_at": "document_idle"
+		}
 	],
 	"action": {
 		"default_popup": "popup.html",
