@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!--
-    DEV ONLY — preview the real popup.html against a test page without reloading the extension.
-    Serve the repo root over HTTP, then open:
-        http://localhost:8000/test/harness.html                 (uses test/fixture.html)
-        http://localhost:8000/test/harness.html?page=other.html  (any same-origin page, relative to /test/)
+    DEV ONLY — preview the real popup against a test page without reloading the extension.
+        npm run serve
+        open http://localhost:8765/test/harness.html                        (test/fixtures/fixture.html)
+        open http://localhost:8765/test/harness.html?page=clean.html        (any same-origin page, relative to /test/fixtures/)
+    Server data comes from the fallback re-fetch (there is no webRequest in a normal tab).
 -->
 <html lang="en">
 <head>
@@ -18,22 +19,42 @@
         .grow { flex: 1; }
         #badge { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #ef4444; color: #fff; font-weight: 700; text-align: center; }
         #badge:empty { display: none; }
+        select { font: inherit; }
     </style>
 </head>
 <body>
-    <div class="col"><div>Popup <span id="badge"></span></div><iframe id="popup" title="popup"></iframe></div>
-    <div class="col grow"><div>Page</div><iframe id="page" title="page"></iframe></div>
+    <div class="col">
+        <div>Popup <span id="badge"></span></div>
+        <iframe id="popup" title="popup"></iframe>
+    </div>
+    <div class="col grow">
+        <div>Page:
+            <select id="pick">
+                <option>fixture.html</option><option>clean.html</option><option>images.html</option>
+                <option>hreflang-en.html</option><option>spa.html</option><option>blocked.html</option>
+            </select>
+        </div>
+        <iframe id="page" title="page"></iframe>
+    </div>
     <script>
         const pageFrame = document.getElementById('page');
         const popupFrame = document.getElementById('popup');
+        const pick = document.getElementById('pick');
         const root = new URL('../', location.href).href;
+        const initial = new URLSearchParams(location.search).get('page') || 'fixture.html';
 
-        pageFrame.src = new URLSearchParams(location.search).get('page') || 'fixture.html';
+        pick.value = initial;
+        pick.addEventListener('change', () => { location.search = `?page=${encodeURIComponent(pick.value)}`; });
+        pageFrame.src = `fixtures/${initial}`;
+
+        let loaded = false;
         pageFrame.addEventListener('load', async () => {
+            if (loaded) return; // SPA-like reloads inside the frame don't reboot the popup
+            loaded = true;
             const html = await (await fetch(`${root}popup.html`, { cache: 'no-store' })).text();
             popupFrame.srcdoc = html
                 .replace('<head>', `<head><base href="${root}">`)
-                .replace('<script src="popup.js">', '<script src="test/chrome-stub.js"></' + 'script><script src="popup.js">');
+                .replace('<script type="module" src="popup/main.js">', '<script src="test/chrome-stub.js"></' + 'script><script type="module" src="popup/main.js">');
         });
 
         window.addEventListener('message', (e) => {

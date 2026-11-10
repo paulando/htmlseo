@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- Image performance fixture. Images come from the test server's /img/<w>x<h>.png route. Not shipped. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image performance fixture page</title>
+</head>
+<body style="margin:0">
+    <h1>Images</h1>
+
+    <!--
+        Hidden-but-"above the fold" cases (data-hidden-case: tests don't wait for these to load).
+        None of them may count as visible / above the fold.
+    -->
+    <!-- Collapsed hover menu, like a mega-menu: absolute + max-height:0 + overflow:hidden -->
+    <nav style="position:relative">
+        <div data-hidden-case style="position:absolute;top:0;left:0;width:600px;max-height:0;overflow:hidden">
+            <h3>Menu heading</h3>
+            <img id="menu-1" src="/img/33x33.png" loading="lazy" width="33" height="33">
+            <img id="menu-2" src="/img/34x34.png" loading="lazy" width="34" height="34">
+        </div>
+    </nav>
+    <!-- Off-canvas drawer -->
+    <div data-hidden-case style="position:fixed;top:0;left:-400px;width:300px">
+        <img id="drawer" src="/img/35x35.png" alt="Drawer" loading="lazy" width="35" height="35">
+    </div>
+    <!-- Carousel: second slide is outside the visible track -->
+    <div style="width:200px;overflow:hidden;white-space:nowrap;font-size:0">
+        <img id="slide-1" src="/img/200x100.png" alt="Slide 1" width="200" height="100" style="display:inline-block">
+        <span data-hidden-case><img id="slide-2" src="/img/201x100.png" alt="Slide 2" loading="lazy" width="200" height="100" style="display:inline-block"></span>
+    </div>
+    <!-- Control: absolute image escapes a static overflow:hidden parent → VISIBLE -->
+    <div style="overflow:hidden;height:0">
+        <img id="escape" src="/img/31x31.png" width="31" height="31" style="position:absolute;top:8px;right:8px">
+    </div>
+    <!-- Control: relative overflow:hidden parent does clip its absolute child → HIDDEN -->
+    <div data-hidden-case style="position:relative;overflow:hidden;height:0">
+        <img id="clipped" src="/img/32x32.png" width="32" height="32" style="position:absolute;top:0;left:0">
+    </div>
+
+    <!-- 1200px file shown at 60px → oversized; lazy above the fold; no width/height attrs -->
+    <img id="oversized" src="/img/1200x800.png" alt="Oversized" loading="lazy" style="width:60px">
+    <!-- Right-sized with dimensions -->
+    <img id="ok" src="/img/64x64.png" alt="Fine" width="64" height="64">
+    <!-- Large above-the-fold image without fetchpriority → LCP hint; noisy → over 300 KB -->
+    <img id="hero" src="/img/400x300.png?noise" alt="Hero" width="400" height="300" style="display:block">
+    <div style="height:3000px"></div>
+    <!-- Below the fold, lazy: fine -->
+    <img id="below" src="/img/48x48.png" alt="Below" loading="lazy" width="48" height="48">
+</body>
+</html>

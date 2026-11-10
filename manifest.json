@@ -1,8 +1,8 @@
 {
 	"name": "HTML tags for SEO analysis",
-	"version": "3.0",
+	"version": "4.0",
 	"manifest_version": 3,
-	"description": "Inspect SEO meta tags, headings, images, links and structured data (schema) of the active tab.",
+	"description": "Inspect SEO meta tags, headings, images, links, content, structured data and indexability of the active tab.",
 	"icons": { "16": "icon.png",
 		"48": "icon48.png",
 		"64": "icon64.png",
@@ -10,7 +10,12 @@
 	},
 	"permissions": [
 		"activeTab",
-		"scripting"
+		"scripting",
+		"storage",
+		"webRequest"
+	],
+	"host_permissions": [
+		"<all_urls>"
 	],
 	"background": {
 		"service_worker": "background.js"

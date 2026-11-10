@@ -26,7 +26,9 @@
                 "headline": "Testing <b>schema</b> \"quotes\"",
                 "image": ["https://placehold.co/1200x630.png"],
                 "author": { "@type": "Person", "name": "Jane Doe", "url": "https://example.com/jane" },
-                "publisher": { "@id": "https://example.com/#org" }
+                "publisher": { "@id": "https://example.com/#org" },
+                "mainEntityOfPage": { "@id": "#webpage" },
+                "isPartOf": { "@id": "https://example.com/#website" }
             },
             {
                 "@type": "BreadcrumbList",
@@ -65,6 +67,8 @@
         <a href="tel:+100000000">Phone</a>
         <a href="https://example.net/"><img src="https://placehold.co/50.png" alt="Image link"></a>
         <a href="https://example.net/empty"></a>
+        <a href="/status/404">Broken internal link</a>
+        <a href="/test/fixtures/clean.html#top">Working internal link</a>
     </p>
 
     <div itemscope itemtype="https://schema.org/Product">

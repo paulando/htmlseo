@@ -1,0 +1,19 @@
+{
+  "name": "htmlseo",
+  "private": true,
+  "type": "module",
+  "description": "Dev tooling for the HTML SEO Chrome extension. Nothing here is shipped in the extension.",
+  "scripts": {
+    "serve": "node test/server.mjs",
+    "lint": "eslint .",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0"
+  }
+}

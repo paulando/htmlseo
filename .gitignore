@@ -1,2 +1,6 @@
 .DS_Store
 *.zip
+dist/
+node_modules/
+test-results/
+playwright-report/

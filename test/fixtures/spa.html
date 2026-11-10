@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- Single-page-app fixture: buttons change the route with history.pushState. Not shipped. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SPA home</title>
+</head>
+<body>
+    <h1 id="h">SPA home</h1>
+    <button id="go-about" type="button">Go to /about</button>
+    <button id="go-anchor" type="button">Jump to #section</button>
+    <script>
+        document.getElementById('go-about').addEventListener('click', () => {
+            history.pushState({}, '', '?route=about');
+            document.title = 'SPA about';
+            document.getElementById('h').textContent = 'About this SPA';
+        });
+        document.getElementById('go-anchor').addEventListener('click', () => { location.hash = 'section'; });
+    </script>
+</body>
+</html>

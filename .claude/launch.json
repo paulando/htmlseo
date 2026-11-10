@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "harness",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["test/server.mjs"],
       "port": 8765
     }
   ]
