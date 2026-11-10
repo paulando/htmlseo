@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+    DEV ONLY — preview the real popup.html against a test page without reloading the extension.
+    Serve the repo root over HTTP, then open:
+        http://localhost:8000/test/harness.html                 (uses test/fixture.html)
+        http://localhost:8000/test/harness.html?page=other.html  (any same-origin page, relative to /test/)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popup harness</title>
+    <style>
+        body { margin: 0; padding: 16px; display: flex; gap: 16px; background: #cbd5e1; font: 13px system-ui, sans-serif; }
+        .col { display: flex; flex-direction: column; gap: 6px; }
+        iframe { border: 0; border-radius: 12px; background: #fff; box-shadow: 0 10px 30px -10px rgba(0,0,0,.35); }
+        #popup { width: 720px; height: 580px; }
+        #page { flex: 1; height: calc(100vh - 60px); min-width: 300px; }
+        .grow { flex: 1; }
+        #badge { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #ef4444; color: #fff; font-weight: 700; text-align: center; }
+        #badge:empty { display: none; }
+    </style>
+</head>
+<body>
+    <div class="col"><div>Popup <span id="badge"></span></div><iframe id="popup" title="popup"></iframe></div>
+    <div class="col grow"><div>Page</div><iframe id="page" title="page"></iframe></div>
+    <script>
+        const pageFrame = document.getElementById('page');
+        const popupFrame = document.getElementById('popup');
+        const root = new URL('../', location.href).href;
+
+        pageFrame.src = new URLSearchParams(location.search).get('page') || 'fixture.html';
+        pageFrame.addEventListener('load', async () => {
+            const html = await (await fetch(`${root}popup.html`, { cache: 'no-store' })).text();
+            popupFrame.srcdoc = html
+                .replace('<head>', `<head><base href="${root}">`)
+                .replace('<script src="popup.js">', '<script src="test/chrome-stub.js"></' + 'script><script src="popup.js">');
+        });
+
+        window.addEventListener('message', (e) => {
+            if (e.data?.type === 'badge') document.getElementById('badge').textContent = e.data.text;
+        });
+    </script>
+</body>
+</html>

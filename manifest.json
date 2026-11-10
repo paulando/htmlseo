@@ -1,18 +1,16 @@
 {
 	"name": "HTML tags for SEO analysis",
-	"version": "2.5",
+	"version": "3.0",
 	"manifest_version": 3,
-	"description": "Get html tags from an active tab",
+	"description": "Inspect SEO meta tags, headings, images, links and structured data (schema) of the active tab.",
 	"icons": { "16": "icon.png",
 		"48": "icon48.png",
 		"64": "icon64.png",
 		"128": "icon128.png"
 	},
 	"permissions": [
-		"tabs",
-		"activeTab", 
-		"scripting",
-		"storage"
+		"activeTab",
+		"scripting"
 	],
 	"background": {
 		"service_worker": "background.js"
@@ -20,7 +18,7 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["content.js"],
+			"js": ["analyzer.js", "content.js"],
 			"run_at": "document_idle"
 		}
 	],

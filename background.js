@@ -1,25 +1,14 @@
-// Set a default badge color
-chrome.action.setBadgeBackgroundColor({ color: "#FF0000" });
-chrome.action.setBadgeTextColor({ color: "#FFFFFF" });
+/*
+ * background.js — MV3 service worker. Only maintains the per-tab error badge.
+ * content.js sends { type: "updateCount", count } after each page load.
+ * (The popup also updates the badge directly after its own analysis.)
+ */
+chrome.action.setBadgeBackgroundColor({ color: '#EF4444' });
+chrome.action.setBadgeTextColor?.({ color: '#FFFFFF' });
 
-// Store per-tab counts
-const tabCounts = {};
-
-// Listen for messages from content.js
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message.type === "updateCount" && sender.tab?.id) {
-    const tabId = sender.tab.id;
-    tabCounts[tabId] = message.count;
-
-    // Update badge only for that tab
-    chrome.action.setBadgeText({
-      text: String(message.count),
-      tabId: tabId
-    });
-  }
-});
-
-// Clean up when a tab is closed
-chrome.tabs.onRemoved.addListener((tabId) => {
-  delete tabCounts[tabId];
+    if (message?.type !== 'updateCount') return;
+    const tabId = sender.tab?.id;
+    if (tabId == null) return;
+    chrome.action.setBadgeText({ tabId, text: message.count > 0 ? String(message.count) : '' });
 });
